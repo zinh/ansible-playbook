@@ -1,0 +1,9 @@
+ruby_version: 2.2.2
+ruby_deps:
+  - git-core
+  - autoconf
+  - automake
+  - libssl-dev
+  - zlib1g-dev
+  - libreadline-dev
+  - build-essential

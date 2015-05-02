@@ -1,0 +1,22 @@
+- name: install ruby build dependencies
+  apt: name={{ item }} state=installed update-cache=yes
+  sudo: yes
+  with_items: ruby_deps
+- name: clone rbenv
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest=~/.rbenv
+- name: clone ruby build
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest=~/.rbenv/plugins/ruby-build
+- name: source rbenv in .bashrc
+  lineinfile: dest=~/.profile regexp="\.rbenv" line='export PATH="$HOME/.rbenv/bin:$PATH"' insertafter=EOF
+- name: rbenv init in .bashrc
+  lineinfile: dest=~/.profile regexp="rbenv init" line="eval \"$(rbenv init -)\"" insertafter=EOF
+- name: check ruby installed
+  shell: cd; bash -lc "rbenv versions | grep {{ ruby_version }} | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
+  register: ruby_is_installed
+- name: install ruby
+  shell: cd; bash -lc "rbenv install {{ ruby_version }}"
+  when: ruby_is_installed.stdout != ruby_version
+  async: 600
+  poll: 30
