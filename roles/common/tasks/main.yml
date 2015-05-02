@@ -1,0 +1,5 @@
+- name: download pip
+  url_get: url="https://bootstrap.pypa.io/get-pip.py" dest=~
+- name: install pip
+  command: ch=~ python get-pip.py
+  sudo: yes
