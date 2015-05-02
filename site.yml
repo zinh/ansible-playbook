@@ -2,6 +2,10 @@
   roles:
     - { role: ruby }
 
-- hosts: webserver
+- hosts: mysql
   roles:
     - mysql
+
+- hosts: webserver
+  roles:
+    - nginx

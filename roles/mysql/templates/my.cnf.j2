@@ -1,0 +1,7 @@
+[mysqld]
+port = {{ mysql_port }}
+basedir = {{ home_path }}/{{ mysql_version }}
+datadir = {{ home_path }}/data/mysql
+tmpdir = /tmp
+bind-address = {{ mysql_bind_address }}
+skip-external-locking

@@ -7,5 +7,6 @@
   with_items:
     - "{{ mysql_version }}.tar.gz"
 - name: copy config file
-- name: create db
-- nmae: start server
+  template:
+    src: my.cnf.j2
+    dest: "~/{{ mysql_version }}/my.cnf"
