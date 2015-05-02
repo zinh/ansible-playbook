@@ -1,0 +1,11 @@
+- name: download mysql
+  get_url: url=https://dev.mysql.com/get/Downloads/MySQL-5.6/{{ mysql_version }}.tar.gz dest=~
+- name: decompess mysql
+  unarchive: src={{ mysql_version }}.tar.gz dest=~ copy=no
+- name: clean up
+  file: path=~/{{ item }} state=absent
+  with_items:
+    - "{{ mysql_version }}.tar.gz"
+- name: copy config file
+- name: create db
+- nmae: start server
