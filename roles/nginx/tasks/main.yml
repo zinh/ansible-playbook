@@ -1,0 +1,21 @@
+- name: download nginx
+  get_url: url=http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz dest=~
+- name: decompress nginx
+  unarchive: src=nginx-{{ nginx_version }}.tar.gz dest=~ copy=no
+- name: download lib prce
+  get_url: url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.37.tar.gz dest=~
+- name: decompress pcre
+  unarchive: src=pcre-{{ pcre_version }}.tar.gz dest=~ copy=no
+- name: configure nginx
+  command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }}
+- name: compile nginx
+  command: chdir=~/nginx-{{ nginx_version }} make
+- name: install nginx
+  command: chdir=~/nginx-{{ nginx_version }} make install
+- name: clean up
+  file: path=~/{{ item }} state=absent
+  with_items:
+    - nginx-{{ nginx_version }}.tar.gz
+    - pcre-{{ pcre_version }}.tar.gz
+    - nginx-{{ nginx_version }}
+    - pcre-{{ pcre_version }}
