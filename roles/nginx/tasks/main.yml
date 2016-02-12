@@ -3,7 +3,7 @@
 - name: decompress nginx
   unarchive: src=nginx-{{ nginx_version }}.tar.gz dest=~ copy=no
 - name: download lib prce
-  get_url: url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.37.tar.gz dest=~
+  get_url: url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-{{ pcre_version }}.tar.gz dest=~
 - name: decompress pcre
   unarchive: src=pcre-{{ pcre_version }}.tar.gz dest=~ copy=no
 - name: configure nginx
