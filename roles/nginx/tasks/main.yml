@@ -65,3 +65,7 @@
     - pcre-{{ pcre_version }}.tar.gz
     - nginx-{{ nginx_version }}
     - pcre-{{ pcre_version }}
+    - zlib-{{ zlib_version }}.tar.gz
+    - zlib-{{ zlib_version }}
+    - openssl-OpenSSL_{{ openssl_version }}.tar.gz
+    - openssl-OpenSSL_{{ openssl_version }}
