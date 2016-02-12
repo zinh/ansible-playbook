@@ -1,17 +1,63 @@
+- include: apt_build_depends.yml
+  when: ansible_pkg_mgr == 'apt'
+
+- name: check nginx
+  stat: path=~/nginx-{{ nginx_version }}
+  register: nginx_dir
+
+- name: check pcre
+  stat: path=~/pcre-{{ pcre_version }}
+  register: pcre_dir
+
+- name: check zlib
+  stat: path=~/zlib-{{ zlib_version }}
+  register: zlib_dir
+
+- name: check openssl
+  stat: path=~/openssl-OpenSSL_{{ openssl_version }}
+  register: openssl_dir
+
 - name: download nginx
   get_url: url=http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz dest=~
+  when: nginx_dir.stat.exists == False
+
 - name: decompress nginx
   unarchive: src=nginx-{{ nginx_version }}.tar.gz dest=~ copy=no
+  when: nginx_dir.stat.exists == False
+
 - name: download lib prce
   get_url: url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-{{ pcre_version }}.tar.gz dest=~
+  when: pcre_dir.stat.exists == False
+
 - name: decompress pcre
   unarchive: src=pcre-{{ pcre_version }}.tar.gz dest=~ copy=no
+  when: pcre_dir.stat.exists == False
+
+- name: download zlib
+  get_url: url=http://zlib.net/zlib-{{ zlib_version }}.tar.gz dest=~
+  when: zlib_dir.stat.exists == False
+
+- name: decompress zlib
+  unarchive: src=zlib-{{ zlib_version }}.tar.gz dest=~ copy=no
+  when: zlib_dir.stat.exists == False
+
+- name: download openssl
+  get_url: url=https://github.com/openssl/openssl/archive/OpenSSL_{{ openssl_version }}.tar.gz dest=~
+  when: openssl_dir.stat.exists == False
+
+- name: decompress openssl
+  unarchive: src=openssl-OpenSSL_{{ openssl_version }}.tar.gz dest=~ copy=no
+  when: openssl_dir.stat.exists == False
+
 - name: configure nginx
-  command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }}
+  command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }} --with-zlib=$HOME/zlib-{{ zlib_version }} --with-http_ssl_module --with-openssl=$HOME/openssl-OpenSSL_{{ openssl_version }}
+
 - name: compile nginx
   command: chdir=~/nginx-{{ nginx_version }} make
+
 - name: install nginx
   command: chdir=~/nginx-{{ nginx_version }} make install
+
 - name: clean up
   file: path=~/{{ item }} state=absent
   with_items:

@@ -1,0 +1,11 @@
+---
+rbenv:
+  repo: "https://github.com/rbenv/rbenv.git"
+  version: v1.0.0
+  root: ~/.rbenv
+  ruby_version: 2.3.0
+
+rbenv_repo: "https://github.com/rbenv/rbenv.git"
+rbenv_root: "~/.rbenv"
+rbenv_plugins:
+  - { name: "ruby-build",         repo: "https://github.com/rbenv/ruby-build.git",         version: "master" }

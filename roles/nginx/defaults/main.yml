@@ -1,0 +1,4 @@
+zlib_version: 1.2.8
+nginx_version: 1.9.0
+openssl_version: 1_0_1r
+pcre_version: 8.37
