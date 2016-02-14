@@ -54,7 +54,7 @@
 
 - name: configure nginx
   command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }} --with-zlib=$HOME/zlib-{{ zlib_version }} --with-http_ssl_module --with-openssl=$HOME/openssl-OpenSSL_{{ openssl_version }}
-  when: passenger.install != True
+  when: passenger.install is undefined
 
 - name: configure nginx with passenger
   command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }} --with-zlib=$HOME/zlib-{{ zlib_version }} --with-http_ssl_module --with-openssl=$HOME/openssl-OpenSSL_{{ openssl_version }} --add-module=$HOME/passenger-{{ passenger.version }}/src/nginx_module
@@ -77,3 +77,10 @@
     - zlib-{{ zlib_version }}
     - openssl-OpenSSL_{{ openssl_version }}.tar.gz
     - openssl-OpenSSL_{{ openssl_version }}
+
+- name: clean up passenger
+  file: path=~/{{ item }} state=absent
+  with_items:
+    - passenger-{{ passenger.version }}.tar.gz
+    - passenger-{{ passenger.version }}
+  when: passenger.install == True
