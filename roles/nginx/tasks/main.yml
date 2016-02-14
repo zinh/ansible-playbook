@@ -1,6 +1,9 @@
 - include: apt_build_depends.yml
   when: ansible_pkg_mgr == 'apt'
 
+- include: passenger_install.yml
+  when: passenger.install == True
+
 - name: check nginx
   stat: path=~/nginx-{{ nginx_version }}
   register: nginx_dir
@@ -51,6 +54,11 @@
 
 - name: configure nginx
   command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }} --with-zlib=$HOME/zlib-{{ zlib_version }} --with-http_ssl_module --with-openssl=$HOME/openssl-OpenSSL_{{ openssl_version }}
+  when: passenger.install != True
+
+- name: configure nginx with passenger
+  command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=$HOME/bin/nginx --with-pcre=$HOME/pcre-{{ pcre_version }} --with-zlib=$HOME/zlib-{{ zlib_version }} --with-http_ssl_module --with-openssl=$HOME/openssl-OpenSSL_{{ openssl_version }} --add-module=$HOME/passenger-{{ passenger.version }}/src/nginx_module
+  when: passenger.install == True
 
 - name: compile nginx
   command: chdir=~/nginx-{{ nginx_version }} make
