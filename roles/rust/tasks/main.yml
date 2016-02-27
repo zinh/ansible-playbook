@@ -1,0 +1,22 @@
+- name: check if rust downloaded
+  stat: path=~/rustc-{{rustc_version}}
+  register: rust_dir
+
+- name: download rust source code
+  get_url: url=https://static.rust-lang.org/dist/rustc-{{rustc_version}}-src.tar.gz
+  when: rust_dir.stat.exists == False
+  tag: rust
+
+- name: decompress rust
+  unarchive: src=rustc-{{rustc_version}}-src.tar.gz dest=~ copy=no
+  when: rust_dir.stat.exists == False
+  tag: rust
+
+- name: configure rust
+- name: compile rust
+- name: install rust
+- name: clean up rust
+  file: path=~/{{item}} state=absent
+  with_items:
+    - rustc-1.6.0
+    - rustc-{{rustc_version}}-src.tar.gz
