@@ -1,0 +1,6 @@
+- name: download apr
+  get_url: http://mirror.digistar.vn/apache//apr/apr-1.5.2.tar.gz dest=~
+- name: extract apr
+  get_url: 
+
+- name: download apr utility
