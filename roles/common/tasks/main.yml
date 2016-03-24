@@ -1,5 +1,6 @@
 - name: install build-essensial
   apt: name=build-essential
+  when: ansible_pkg_mgr == 'apt'
   tags: 
     - ubuntu
 - name: download pip
