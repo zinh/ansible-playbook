@@ -1,3 +1,7 @@
+- name: install build-essensial
+  apt: name=build-essential
+  tags: 
+    - ubuntu
 - name: download pip
   url_get: url="https://bootstrap.pypa.io/get-pip.py" dest=~
 - name: install pip
