@@ -1,0 +1,7 @@
+- name: install dependency
+  apt: {{item}} state=present
+  with_items:
+    - libreadline-dev
+    - zlib1g-dev
+  tags:
+    - ubuntu

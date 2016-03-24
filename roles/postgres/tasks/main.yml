@@ -1,0 +1,4 @@
+- include: apt_build_depends.yml
+  when: ansible_pkg_mgr == 'apt'
+- name: Download postgres source code
+  get_url: url=https://ftp.postgresql.org/pub/source/v{{postgres_version}}/postgresql-{{postgres_version}}.tar.bz2 dest=~
