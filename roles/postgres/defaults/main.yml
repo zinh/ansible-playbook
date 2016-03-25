@@ -1,1 +1,4 @@
 postgres_version: 9.5.1
+postgres_plugins:
+  - pg_trgm
+  - tsearch2
