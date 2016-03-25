@@ -1,9 +1,0 @@
-- name: update apt cache
-  apt: update_cache=yes
-  sudo: true
-
-- name: install build depends
-  apt: pkg={{ item }} state=present install_recommends=no
-  with_items:
-    - build-essential
-  sudo: true
