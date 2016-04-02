@@ -3,8 +3,17 @@
   when: ansible_pkg_mgr == 'apt'
   tags: 
     - ubuntu
-- name: download pip
-  url_get: url="https://bootstrap.pypa.io/get-pip.py" dest=~
-- name: install pip
-  command: ch=~ python get-pip.py
-  sudo: yes
+- name: install additional packages
+  apt: name={{ item }}
+  with_itesm:
+    - libpcre3-dev
+    - openssl
+    - libssl-dev
+  when: ansible_pkg_mgr == 'apt'
+  tags:
+    - ubuntu
+  # - name: download pip
+  #   url_get: url="https://bootstrap.pypa.io/get-pip.py" dest=~
+  # - name: install pip
+  #   command: ch=~ python get-pip.py
+  #   sudo: yes
