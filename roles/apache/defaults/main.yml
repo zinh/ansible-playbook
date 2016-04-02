@@ -1,5 +1,4 @@
 ---
-apr_version: 1.5.2
-apr_util_version: 1.5.4
-apache_version: 2.4.18
-apache_source_dir: httpd-{{apache_version}}
+# compile: install from source
+# package: install from package
+apache_install_type: compile

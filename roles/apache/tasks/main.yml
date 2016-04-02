@@ -1,8 +1,6 @@
-- include: prepare.yml
-- name: configure
-  command: chdir={{apache_source_dir}} sh configure --with-included-apr
-- name: compile
-  command: chdir={{apache_source_dir}} make
-- name: install
-  command: chdir={{apache_source_dir}} make install
-- include: cleanup.yml
+- name: include env vars
+  include_vars: "{{ apache_install_type }}.yml"
+- include: {{ apache_install_type}}_prepare.yml
+- include: {{ apache_install_type }}.yml
+- include: compile_clean_up.yml
+  when: apache_install_type == "compile"
