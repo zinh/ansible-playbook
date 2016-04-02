@@ -1,6 +1,3 @@
-# - include: apt_build_depends.yml
-#   when: ansible_pkg_mgr == 'apt'
-
 - include: passenger_install.yml
   when: passenger.install == True
 

@@ -2,7 +2,7 @@
   stat: path=~/httpd-{{ apache_version }}
   register: apache_source
 - name: download apache source
-  unarchive: src=http://www-us.apache.org/dist//httpd/httpd-{{ apache_version }}.tar.bz2 dest=~ copy=no
+  unarchive: src=http://www-us.apache.org/dist/httpd/httpd-{{ apache_version }}.tar.bz2 dest=~ copy=no
   when: apache_source.stat.exists == False
 - name: check apr source folder
   stat: path=~/httpd-{{ apache_version }}/srclib/apr
