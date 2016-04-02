@@ -1,6 +1,10 @@
 - name: download apr
   get_url: http://mirror.digistar.vn/apache//apr/apr-1.5.2.tar.gz dest=~
 - name: extract apr
-  get_url: 
-
+  unarchive: src=apr-1.5.2.tar.gz dest=~ copy=no
 - name: download apr utility
+  get_url: http://mirrors.viethosting.vn/apache//apr/apr-util-1.5.4.tar.gz dest=~
+- name: extract apr utility
+  unarchive: src=apr-util-1.5.4.tar.gz dest=~ copy=no
+- name: download apache
+- name: extract apache

@@ -1,4 +1,20 @@
 - include: apt_build_depends.yml
   when: ansible_pkg_mgr == 'apt'
+- name: check if source code downloaded
+  stat: path=~/postgresql-{{postgres_version}}.tar.bz2
+  register: postgres_archive
 - name: Download postgres source code
   get_url: url=https://ftp.postgresql.org/pub/source/v{{postgres_version}}/postgresql-{{postgres_version}}.tar.bz2 dest=~
+  when: postgres_archive.stat.exists == False
+- name: Check postgres source code folder
+  stat: path=~/postgresql-{{postgres_version}}
+  register: postgres_folder
+- name: extract postgres archive
+  unarchive: src=postgresql-{{postgres_version}}.tar.bz2 dest=~ copy=no
+  when: postgres_folder.stat.exists == False
+- name: configure postgres
+  command: chdir=postgresql-{{postgres_version}} sh configure --prefix=$HOME/Programs/postgres-{{postgres_version}}
+- name: compile postgres
+  command: chdir=postgresql-{{postgres_version}} make
+- name: install postgres
+  command: chdir=postgresql-{{postgres_version}} make install

@@ -1,5 +1,4 @@
 - name: download passenger
   get_url: url=http://s3.amazonaws.com/phusion-passenger/releases/passenger-{{ passenger.version }}.tar.gz dest=~
-
 - name: extract passenger
   unarchive: src=passenger-{{ passenger.version }}.tar.gz dest=~ copy=no
