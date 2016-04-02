@@ -1,7 +1,10 @@
+- set_fact:
+    apache_source_dir: httpd-{{apache_version}}   
+- include: compile_prepare.yaml
 - name: configure
   command: chdir={{apache_source_dir}} sh configure --with-included-apr
 - name: compile
   command: chdir={{apache_source_dir}} make
 - name: install
   command: chdir={{apache_source_dir}} make install
-- include: cleanup.yml
+- include: compile_cleanup.yml

@@ -2,13 +2,13 @@
   stat: path=~/httpd-{{ apache_version }}
   register: apache_source
 - name: download apache source
-  unarchive: src=http://www-us.apache.org/dist/httpd/httpd-{{ apache_version }}.tar.bz2 dest=~ copy=no
+  unarchive: src={{ apache_download_mirror }}/httpd/httpd-{{ apache_version }}.tar.bz2 dest=~ copy=no
   when: apache_source.stat.exists == False
 - name: check apr source folder
   stat: path=~/httpd-{{ apache_version }}/srclib/apr
   register: apr_source
 - name: download apr
-  unarchive: src=http://www-us.apache.org/dist/apr/apr-{{ apr_version }}.tar.bz2 dest=~/httpd-{{ apache_version }} copy=no
+  unarchive: src={{ apache_download_mirror}}/apr/apr-{{ apr_version }}.tar.bz2 dest=~/httpd-{{ apache_version }} copy=no
   when: apr_source.stat.exists == False
 - name: rename apr
   command: chdir={{ apache_source_dir }} mv apr-{{ apr_version }} srclib/apr 
@@ -17,7 +17,7 @@
   stat: path=~/httpd-{{ apache_version }}/srclib/apr-util
   register: apr_util_source
 - name: download apr utility
-  unarchive: src=http://www-us.apache.org/dist/apr/apr-util-{{ apr_util_version }}.tar.bz2 dest=~/{{ apache_source_dir }} copy=no
+  unarchive: src={{ apache_download_mirror }}/apr/apr-util-{{ apr_util_version }}.tar.bz2 dest=~/{{ apache_source_dir }} copy=no
   when: apr_util_source.stat.exists == False
 - name: rename apr utility
   command: mv apr-util-{{ apr_util_version }} srclib/apr-util chdir=httpd-{{ apache_version }}
