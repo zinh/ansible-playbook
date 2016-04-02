@@ -1,3 +1,4 @@
 *.swp
 hosts
 host_vars
+site.retry
