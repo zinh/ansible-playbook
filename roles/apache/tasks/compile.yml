@@ -1,8 +1,8 @@
 - set_fact:
     apache_source_dir: httpd-{{apache_version}}   
-- include: compile_prepare.yaml
+- include: compile_prepare.yml
 - name: configure
-  command: chdir={{apache_source_dir}} sh configure --with-included-apr
+  command: chdir={{apache_source_dir}} sh configure --with-included-apr --prefix=$HOME/apache2
 - name: compile
   command: chdir={{apache_source_dir}} make
 - name: install

@@ -1,5 +1,5 @@
 - name: check apache source folder
-  stat: path=~/httpd-{{ apache_version }}
+  stat: path=~/{{ apache_source_dir }}
   register: apache_source
 - name: download apache source
   unarchive: src={{ apache_download_mirror }}/httpd/httpd-{{ apache_version }}.tar.bz2 dest=~ copy=no
