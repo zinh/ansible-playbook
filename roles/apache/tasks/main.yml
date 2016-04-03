@@ -1,3 +1,5 @@
 - name: include env vars
   include_vars: "{{ apache_install_type }}.yml"
-- include: "{{ apache_install_type}}.yml"
+- include: "{{ apache_install_type }}.yml"
+- include: passenger.yml
+  when: passenger_install == True

@@ -2,3 +2,5 @@
 # compile: install from source
 # package: install from package
 apache_install_type: compile
+passenger_install: False
+passenger_version: 5.0.26

@@ -1,10 +1,16 @@
 - set_fact:
     apache_source_dir: httpd-{{apache_version}}   
 - include: compile_prepare.yml
+- name: check apache install directory
+  stat: path={{ apache_install_path }}
+  register: apache_install_dir
 - name: configure
-  command: chdir={{apache_source_dir}} sh configure --with-included-apr --prefix=$HOME/apache2
+  command: chdir={{apache_source_dir}} sh configure --with-included-apr --prefix={{ apache_install_path }}
+  when: apache_install_dir.stat.exists == False
 - name: compile
   command: chdir={{apache_source_dir}} make
+  when: apache_install_dir.stat.exists == False
 - name: install
   command: chdir={{apache_source_dir}} make install
+  when: apache_install_dir.stat.exists == False
 - include: compile_cleanup.yml
