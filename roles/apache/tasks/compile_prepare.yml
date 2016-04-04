@@ -1,18 +1,20 @@
 - name: check lib pcre
   command: pcre-config --version
   register: pcre_config
+  ignore_errors: true
 - name: download pcre source
-  unarchive: src={{pcre_mirror}}/pcre-{{pcre_version}}.tar.gz dest=~ copy=no
-  when: pcre_config is not defined
+  unarchive: src={{pcre_mirror}}/pcre-{{pcre_version}}.tar.gz dest=/tmp copy=no
+  when: pcre_config.rc != 0
 - name: configure pcre
-  command: sh configure --prefix={{pcre_install_path}} chdir=pcre-{{pcre_version}}
-  when: pcre_config is not defined
+  command: sh configure --prefix={{pcre_install_path}} chdir=/tmp/pcre-{{pcre_version}}
+  when: pcre_config.rc != 0
 - name: compile pcre
-  command: make chdir=pcre-{{pcre_version}}
-  when: pcre_config is not defined
+  command: make chdir=/tmp/pcre-{{pcre_version}}
+  when: pcre_config.rc != 0
 - name: install pcre
-  command: make install chdir=pcre-{{pcre_version}}
-  when: pcre_config is not defined
+  command: make install chdir=/tmp/pcre-{{pcre_version}}
+  when: pcre_config.rc != 0
+  become: yes
 - name: check apache source folder
   stat: path=~/{{ apache_source_dir }}
   register: apache_source
