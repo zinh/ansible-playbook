@@ -6,3 +6,5 @@ site.retry
 .kitchen.local.yml
 .rbenv-gemsets
 .ruby-version
+.vagrant
+vagrant.retry
