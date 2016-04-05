@@ -1,0 +1,7 @@
+---
+- name: Ensure Apache is installed on Solaris.
+  pkg5:
+    name: "{{ item }}"
+    state: installed
+  become: true
+  with_items: "{{ apache_packages }}"
