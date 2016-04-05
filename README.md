@@ -6,5 +6,7 @@ My personal ansible playbook
 
 1. Rbenv
 2. Apache
-3. [TODO] Mysql
-4. [TODO] php-fpm
+3. Passenger
+4. Nginx
+5. [TODO] MySql
+6. [TODO] Postgres
