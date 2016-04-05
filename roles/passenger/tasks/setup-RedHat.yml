@@ -1,0 +1,7 @@
+---
+- name: Ensure apache-dev installed on RHEL
+  yum:
+    name: "{{ item }}"
+    state: installed
+  become: true
+  with_items: "{{ passenger_dependencies }}"

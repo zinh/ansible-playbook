@@ -1,0 +1,9 @@
+---
+- name: Update apt cache.
+  become: true
+  apt: update_cache=yes cache_valid_time=86400
+
+- name: Ensure apache-dev, apr, apr-util dev library is installed on Debian.
+  apt: "name={{ item }} state=installed"
+  become: true
+  with_items: "{{ passenger_dependencies }}"

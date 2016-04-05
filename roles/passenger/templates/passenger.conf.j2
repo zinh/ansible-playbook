@@ -1,0 +1,9 @@
+{% if ansible_os_family == 'RedHat' and rbenv.env == 'system' %}
+LoadModule passenger_module /usr/local/rbenv/versions/{{ rbenv.ruby_version }}/lib/ruby/gems/{{ rbenv.ruby_version }}/gems/passenger-{{ passenger_version }}/buildout/apache2/mod_passenger.so
+{% endif %}
+<IfModule mod_passenger.c>
+{% if rbenv.env == 'system' %}
+  PassengerRoot /usr/local/rbenv/versions/{{ rbenv.ruby_version }}/lib/ruby/gems/{{ rbenv.ruby_version }}/gems/passenger-{{ passenger_version }}
+  PassengerDefaultRuby /usr/local/rbenv/versions/{{ rbenv.ruby_version }}/bin/ruby
+{% endif %}
+</IfModule>

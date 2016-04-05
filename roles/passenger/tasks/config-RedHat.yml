@@ -1,0 +1,25 @@
+---
+- name: Check passenger module
+  stat: path="{{ apache_server_root }}/conf.d/passenger.conf"
+  register: apache_mod
+- name: Compile mod_passenger module
+  command: $SHELL -lc "passenger-install-apache2-module --auto --languages={{ passenger_languages }}"
+  when:
+    - rbenv.env == 'user'
+    - apache_mod.stat.exists == False
+- name: Compile mod_passenger module with sudo
+  command: $SHELL -lc "passenger-install-apache2-module --auto --languages={{ passenger_languages }}"
+  become: True
+  when:
+    - rbenv.env == 'system'
+    - apache_mod.stat.exists == False
+- name: Config passenger module
+  template:
+    src: "passenger.conf.j2"
+    dest: "{{ apache_server_root }}/conf.d/passenger.conf"
+    owner: root
+    group: root
+    mode: 0644
+  become: True
+  # when: apache_mod.stat.exists == False
+  notify: restart apache

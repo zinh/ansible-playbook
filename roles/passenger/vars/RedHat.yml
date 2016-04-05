@@ -1,0 +1,4 @@
+__passenger_dependencies:
+  - httpd-devel
+  - gcc-c++
+  - libcurl-devel

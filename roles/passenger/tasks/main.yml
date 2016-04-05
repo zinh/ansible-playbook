@@ -1,0 +1,31 @@
+---
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: Define passenger_dependencies
+  set_fact:
+    passenger_dependencies: "{{__passenger_dependencies | list}}"
+  when: passenger_dependencies is not defined
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+- name: Check passenger version
+  shell: $SHELL -lc 'gem list | grep "passenger ({{ passenger_version }})"'
+  register: passenger_gem
+  changed_when: False
+  ignore_errors: True
+- name: Install passenger gem
+  shell: $SHELL -lc "gem install passenger -v={{ passenger_version }}"
+  when:
+    - passenger_gem.stdout == ""
+    - rbenv.env == 'user'
+- name: Install passenger gem with sudo
+  shell: $SHELL -lc "gem install passenger -v={{ passenger_version }}"
+  become: True
+  when:
+    - passenger_gem.stdout == ""
+    - rbenv.env == 'system'
+- include: config-Debian.yml
+  when: ansible_os_family == 'Debian'
+- include: config-RedHat.yml
+  when: ansible_os_family == 'RedHat'

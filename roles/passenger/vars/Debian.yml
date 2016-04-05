@@ -1,0 +1,4 @@
+__passenger_dependencies:
+  - apache2-threaded-dev
+  - libapr1-dev
+  - libaprutil1-dev
