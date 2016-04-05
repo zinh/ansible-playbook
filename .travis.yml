@@ -28,10 +28,10 @@ script:
   - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/playbook:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
 
   # Ansible syntax check.
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/playbook/test.yml --syntax-check'
+  - 'sudo docker run --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/playbook/test.yml --syntax-check'
 
   # Test role.
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/playbook/test.yml'
+  - 'sudo docker run --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/playbook/test.yml'
 
   # Test role idempotence.
   - >

@@ -1,0 +1,10 @@
+- name: install passenger gem
+  command: gem install passenger -v={{ passenger_version }}
+  tags:
+    - passenger
+    - apache
+- name: compile mod_passenger module
+  command: passenger-install-apache2-module --auto --apxs2-path={{ apache_install_path }}/bin/apxs --apr-config-path={{ apache_install_path }}/bin/apr-1-config --languages=ruby
+  tags:
+    - passenger
+    - apache

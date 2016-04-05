@@ -1,0 +1,41 @@
+- name: check lib pcre
+  command: pcre-config --version
+  register: pcre_config
+  ignore_errors: true
+- name: download pcre source
+  unarchive: src={{pcre_mirror}}/pcre-{{pcre_version}}.tar.gz dest=/tmp copy=no
+  when: pcre_config.rc != 0
+- name: configure pcre
+  command: sh configure --prefix={{pcre_install_path}} chdir=/tmp/pcre-{{pcre_version}}
+  when: pcre_config.rc != 0
+- name: compile pcre
+  command: make chdir=/tmp/pcre-{{pcre_version}}
+  when: pcre_config.rc != 0
+- name: install pcre
+  command: make install chdir=/tmp/pcre-{{pcre_version}}
+  when: pcre_config.rc != 0
+  become: yes
+- name: check apache source folder
+  stat: path=~/{{ apache_source_dir }}
+  register: apache_source
+- name: download apache source
+  unarchive: src={{ apache_download_mirror }}/httpd/httpd-{{ apache_version }}.tar.bz2 dest=~ copy=no
+  when: apache_source.stat.exists == False
+- name: check apr source folder
+  stat: path=~/httpd-{{ apache_version }}/srclib/apr
+  register: apr_source
+- name: download apr
+  unarchive: src={{ apache_download_mirror}}/apr/apr-{{ apr_version }}.tar.bz2 dest=~/httpd-{{ apache_version }} copy=no
+  when: apr_source.stat.exists == False
+- name: rename apr
+  command: chdir={{ apache_source_dir }} mv apr-{{ apr_version }} srclib/apr 
+  when: apr_source.stat.exists == False
+- name: check apr util source
+  stat: path=~/httpd-{{ apache_version }}/srclib/apr-util
+  register: apr_util_source
+- name: download apr utility
+  unarchive: src={{ apache_download_mirror }}/apr/apr-util-{{ apr_util_version }}.tar.bz2 dest=~/{{ apache_source_dir }} copy=no
+  when: apr_util_source.stat.exists == False
+- name: rename apr utility
+  command: mv apr-util-{{ apr_util_version }} srclib/apr-util chdir=httpd-{{ apache_version }}
+  when: apr_util_source.stat.exists == False

@@ -2,3 +2,9 @@
 hosts
 host_vars
 site.retry
+.kitchen/
+.kitchen.local.yml
+.rbenv-gemsets
+.ruby-version
+.vagrant
+vagrant.retry

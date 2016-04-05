@@ -1,0 +1,10 @@
+apr_version: 1.5.2
+apr_util_version: 1.5.4
+apache_version: 2.4.18
+apache_download_mirror: "http://www-us.apache.org/dist"
+pcre_version: 8.38
+pcre_mirror: "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre"
+pcre_install_path: "/usr/local"
+passenger_install: False
+passenger_version: 5.0.26
+apache_install_path: "$HOME/apache2"
