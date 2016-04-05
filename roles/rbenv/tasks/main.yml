@@ -19,6 +19,7 @@
     version={{ rbenv.version }}
     accept_hostkey=true
     force=yes
+  become: true
   when: rbenv.env == "system"
   tags:
     - rbenv
@@ -26,6 +27,7 @@
 - name: create plugins directory for system
   file: state=directory path={{ rbenv_root }}/plugins
   when: rbenv.env == "system"
+  become: true
   tags:
     - rbenv
 
@@ -38,6 +40,7 @@
     force=yes
   with_items: "{{rbenv_plugins}}"
   when: rbenv.env == "system"
+  become: true
   tags:
     - rbenv
 
@@ -147,6 +150,7 @@
 
 - name: install ruby {{ rbenv.ruby_version }} for system
   shell: bash -lc "rbenv install {{ rbenv.ruby_version }}"
+  become: true
   when:
     - rbenv.env == "system"
     - ruby_installed.rc != 0
@@ -165,6 +169,7 @@
 
 - name: set ruby {{ rbenv.ruby_version }} for system
   shell: bash -lc "rbenv global {{ rbenv.ruby_version }} && rbenv rehash"
+  become: true
   when:
     - rbenv.env == "system"
     - ruby_selected.rc != 0

@@ -3,3 +3,4 @@
   service:
     name: "{{ apache_service }}"
     state: restarted
+  become: True

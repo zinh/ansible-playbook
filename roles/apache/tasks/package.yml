@@ -60,3 +60,4 @@
     state: "{{ apache_state }}"
     enabled: yes
   become: true
+  notify: restart apache

@@ -9,7 +9,8 @@
     - zlib-devel
     - libffi-devel
     - git
+    - tar
+    - bzip2
   become: true
   tags:
     - rbenv
-
