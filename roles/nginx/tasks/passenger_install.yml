@@ -1,4 +1,6 @@
-- name: download passenger
-  get_url: url=http://s3.amazonaws.com/phusion-passenger/releases/passenger-{{ passenger.version }}.tar.gz dest=~
-- name: extract passenger
-  unarchive: src=passenger-{{ passenger.version }}.tar.gz dest=~ copy=no
+- name: Check passenger source directory
+  stat: path=~/passenger-{{ passenger.version }}
+  register: passenger_source
+- name: Extract passenger
+  unarchive: src=http://s3.amazonaws.com/phusion-passenger/releases/passenger-{{ passenger.version }}.tar.gz dest=~ copy=no
+  when: passenger_source.stat.exists == False

@@ -1,0 +1,3 @@
+---
+nginx_prerequisite:
+  - build-essential
