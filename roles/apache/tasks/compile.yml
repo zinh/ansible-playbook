@@ -1,16 +1,38 @@
 - set_fact:
     apache_source_dir: httpd-{{apache_version}}   
+
+- name: Check current apache version
+  shell: 'httpd -v | grep "{{ apache_version }}"'
+  changed_when: false
+  always_run: yes
+  register: _current_apache_version
+
 - include: compile_prepare.yml
-- name: check apache install directory
+  when: "_current_apache_version == ''"
+
+- name: Check apache install directory
   stat: path={{ apache_install_path }}
   register: apache_install_dir
-- name: configure
-  command: chdir={{apache_source_dir}} sh configure --with-included-apr --prefix={{ apache_install_path }}
-  when: apache_install_dir.stat.exists == False
-- name: compile
+  when: "_current_apache_version == ''"
+
+- name: Configure
+  command: chdir={{apache_source_dir}} sh configure --with-included-apr --enable-layout={{ ansible_os_family }} 
+  when:
+    - "_current_apache_version == ''"
+    - apache_install_dir.stat.exists == False
+
+- name: Compile
   command: chdir={{apache_source_dir}} make
-  when: apache_install_dir.stat.exists == False
-- name: install
+  when: 
+    - "_current_apache_version == ''"
+    - apache_install_dir.stat.exists == False
+
+- name: Install
   command: chdir={{apache_source_dir}} make install
-  when: apache_install_dir.stat.exists == False
+  become: true
+  when:
+    - "_current_apache_version == ''"
+    - apache_install_dir.stat.exists == False
+
 - include: compile_cleanup.yml
+  when: "_current_apache_version == ''"
