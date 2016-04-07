@@ -1,0 +1,5 @@
+__common_packages:
+  - build-essential 
+  - libpcre3-dev
+  - openssl
+  - libssl-dev
