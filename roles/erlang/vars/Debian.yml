@@ -1,0 +1,3 @@
+erlang_dependencies:
+  - libncurses5-dev
+  - libssl-dev
