@@ -1,0 +1,3 @@
+- name: configure nginx
+  command: chdir=~/nginx-{{ nginx_version }} sh configure --prefix=/usr/local/nginx --with-pcre=$HOME/pcre-{{ pcre_version }} --with-zlib=$HOME/zlib-{{ zlib_version }} --with-http_ssl_module --with-openssl=$HOME/openssl-OpenSSL_{{ openssl_version }} --sbin-path=/usr/sbin/nginx --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --with-http_gzip_static_module
+  when: passenger.install is undefined
